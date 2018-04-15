@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import {
-  Redirect,
-  withRouter
+  Route,
+  Redirect
 } from "react-router-dom";
 export default class TweetListingScreen extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {isLoading: true,tweetList:[]};
+		this.state = {isLoading: true,tweetList:[],selectedTweet:null};
 	}
   componentDidMount(){
 
@@ -16,26 +16,47 @@ export default class TweetListingScreen extends Component {
   }
 	render() {
     let toRender= "";
+    if (!this.props.location.state) {
+      return <Redirect to={{pathname:"/login"}} />;
+    }
     if(this.state.isLoading){
-      toRender =  (
-        <div className="loader"/>
+      return(
+        <div className="App">
+          <div className="loader"/>
+        </div>
       )
     }
 
 
-    if (!this.props.location.state) {
-      return <Redirect to={{pathname:"/login"}} />;
+    if(this.state.selectedTweet){
+      return <Redirect push={true} to={{pathname:"/tweet/"+this.state.selectedTweet.id, state:{...this.state.selectedTweet}}} />;
+
     }
+
+    toRender = this.state.tweetList.map(function (tweetItem) {
+      return(
+        <li key={tweetItem.id} className="tweet-item" onClick={() => this.navigateToTweet(tweetItem)}>
+          {tweetItem.text}
+        </li>
+      )
+    },this);
 
 		return (
 			<div className="App">
-      {toRender}
+        <ul className="tweet-list-container">
+          {toRender}
+          <li className="tweet-item load-more">
+            <div className='button'>load more</div>
+          </li>
+        </ul>
 			</div>
 		);
 	}
-
+  navigateToTweet(tweetItem){
+    this.setState({selectedTweet: tweetItem});
+  }
   getTweetList = () => {
-    fetch('http://localhost:3001/getTweetList/',{
+    fetch('http://localhost:3001/getTweetList?fromId=0',{
       headers: new Headers({
         "clientToken": this.props.location.state.clientToken, "clientSecretToken": this.props.location.state.clientSecretToken
       })
@@ -44,8 +65,7 @@ export default class TweetListingScreen extends Component {
       return response.json();
     })
     .then((responseJson) => {
-      console.log(responseJson);
-      this.setState({
+       this.setState({
         isLoading:false,
         tweetList: responseJson
       })
