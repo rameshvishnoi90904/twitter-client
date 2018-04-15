@@ -1,112 +1,158 @@
-.App{
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%
-
+.App {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
 }
 
-  .tweet-list-container{
-    height: 100%;
-    list-style-type: none;
-    padding-top: 50px;
-    padding: 0 150px;
-    background-color: #F5F5F5;
-    margin: 0;
-    overflow: auto;
-  }
-  .tweet-item{
-    min-height: 60px;
-    background-color: white;
-    border: solid 1px #efefef;
-    margin-bottom: 50px;
-    padding: 10px;
-    border-radius: 5px;
-    position: relative;
-    top: 0;
-    transition: top 0.5s cubic-bezier(.25,.8,.25,1);
-     &:hover{
-       top:-5px;
-       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      //  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-     }
+.tweet-list-container {
+	height: calc(100% - 100px);
+	width: 100%;
+	list-style-type: none;
+	padding: 50px 150px;
+	margin: 0;
+	overflow: auto;
+	.tweet-item {
+		min-height: 60px;
+		background-color: white;
+		border: solid 1px #efefef;
+		margin-bottom: 50px;
+		padding: 10px;
+		border-radius: 5px;
+		position: relative;
+		top: 0;
+		transition: top 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		border-radius: 10px;
+		.tweet-text {
+			flex: 1;
+		}
+		.no-of-tweet {
+			padding: 0 10px;
+		}
+		.user-details {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.user-profile-image {
+				margin-right: 15px;
+				height: 90px;
+				border-radius: 45px;
+			}
+			.tweet-user-name {
+			}
+		}
+		&:hover {
+			top: -5px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+				0 1px 2px rgba(0, 0, 0, 0.24);
+			//  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+		}
+	}
 
-     &.load-more{
-       min-height: initial;
-       background-color: initial;
-       .button{
-         background-color: white;
-       }
-     }
-  }
-
-body,html,.root,.app-container{
-  width: 100%;
-  height: 100%;
+	.load-more {
+		text-align: center;
+		cursor: pointer;
+		.button {
+		}
+	}
 }
 
-.signin-button{
-  width: 250px;
+body,
+html,
+.root,
+.app-container {
+	width: 100%;
+	height: 100%;
+	background-color: #f5f5f5;
+}
+
+.signin-button {
+	width: 250px;
 }
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+	animation: App-logo-spin infinite 20s linear;
+	height: 80px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+	background-color: #222;
+	height: 150px;
+	padding: 20px;
+	color: white;
 }
 .App-title {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 .App-intro {
-  font-size: large;
-  background-color: lighten(red, 20%);
-  margin: 0;
-
+	font-size: large;
+	background-color: lighten(red, 20%);
+	margin: 0;
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
-.loader{
-  border: 6px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 6px solid #3498db;
-    width: 60px;
-    height: 60px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
+.loader {
+	border: 6px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 6px solid #3498db;
+	width: 60px;
+	height: 60px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
 }
 
-.tweet-screen{
-  height: 100%;
-  display: flex;
-  .tweet-owner-container{
-    flex:1;
-    .user-profile-image{
-      background-size: contain;
-      height: 120px;
-    }
-  }
-  .tweet-text{
-    flex:3
-  }
+.tweet-screen {
+	display: flex;
+	margin: 150px;
+	background-color: white;
+	border: solid 1px #efefef;
+	padding: 10px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	border-radius: 15px;
+	align-items: center;
+	.tweet-owner-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 5px;
+		.user-profile-image {
+			background-size: contain;
+			height: 120px;
+			border-radius: 60px;
+			margin: 10px;
+		}
+	}
+	.tweet-text {
+		flex: 3;
+	}
 }

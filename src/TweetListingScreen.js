@@ -1,79 +1,111 @@
 import React, { Component } from "react";
-import {
-  Route,
-  Redirect
-} from "react-router-dom";
-export default class TweetListingScreen extends Component {
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { addTweet, networktCallStart, selectTweet } from "./actions/index";
+class TweetListingScreen extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {isLoading: true,tweetList:[],selectedTweet:null};
 	}
-  componentDidMount(){
-
-    if(this.props.location.state && this.props.location.state.clientToken){
-      this.getTweetList();
-    }
-  }
+	componentDidMount() {
+		if (this.props.isLoggedIn) {
+			this.getTweetList();
+		}
+	}
 	render() {
-    let toRender= "";
-    if (!this.props.location.state) {
-      return <Redirect to={{pathname:"/login"}} />;
-    }
-    if(this.state.isLoading){
-      return(
-        <div className="App">
-          <div className="loader"/>
-        </div>
-      )
-    }
+		let toRender = "";
+		if (!this.props.isLoggedIn) {
+			return <Redirect to={{ pathname: "/login" }} />;
+		}
+		if (this.props.isLoading) {
+			return (
+				<div className="App">
+					<div className="loader" />
+				</div>
+			);
+		}
 
-
-    if(this.state.selectedTweet){
-      return <Redirect push={true} to={{pathname:"/tweet/"+this.state.selectedTweet.id, state:{...this.state.selectedTweet}}} />;
-
-    }
-
-    toRender = this.state.tweetList.map(function (tweetItem) {
-      return(
-        <li key={tweetItem.id} className="tweet-item" onClick={() => this.navigateToTweet(tweetItem)}>
-          {tweetItem.text}
-        </li>
-      )
-    },this);
+		if (this.props.selectedTweet) {
+			return (
+				<Redirect
+					push={true}
+					to={{
+						pathname: "/tweet/" + this.props.selectedTweet.id
+					}}
+				/>
+			);
+		}
+		toRender = this.props.tweetList.map(tweetItem => {
+			return (
+				<li
+					key={tweetItem.id}
+					className="tweet-item"
+					onClick={() => this.navigateToTweet(tweetItem)}>
+					<div className="user-details">
+						<img
+							src={tweetItem.user.profile_image_url}
+							className="user-profile-image"
+						/>
+						<div className="tweet-user-name">
+							{tweetItem.user.name}
+						</div>
+					</div>
+					<div className="tweet-text">{tweetItem.text}</div>
+					<div className="no-of-tweet">
+						{"No Of Views: " + tweetItem.noOfView}
+					</div>
+				</li>
+			);
+		}, this);
 
 		return (
 			<div className="App">
-        <ul className="tweet-list-container">
-          {toRender}
-          <li className="tweet-item load-more">
-            <div className='button'>load more</div>
-          </li>
-        </ul>
+				<ul className="tweet-list-container">
+					{toRender}
+					<div
+						className="load-more"
+						onClick={() => this.loadMoreTweet()}>
+						<div className="button">load more</div>
+					</div>
+				</ul>
 			</div>
 		);
 	}
-  navigateToTweet(tweetItem){
-    this.setState({selectedTweet: tweetItem});
-  }
-  getTweetList = () => {
-    fetch('http://localhost:3001/getTweetList?fromId=0',{
-      headers: new Headers({
-        "clientToken": this.props.location.state.clientToken, "clientSecretToken": this.props.location.state.clientSecretToken
-      })
-    })
-    .then((response) => {
-      return response.json();
-    })
-    .then((responseJson) => {
-       this.setState({
-        isLoading:false,
-        tweetList: responseJson
-      })
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  }
-
+	navigateToTweet(tweetItem) {
+		this.props.dispatch(selectTweet(tweetItem));
+	}
+	loadMoreTweet() {
+		var fromId =
+			this.props.tweetList.length > 0
+				? this.props.tweetList[this.props.tweetList.length - 1].id
+				: 0;
+		this.getTweetList(fromId);
+	}
+	getTweetList = (fromId = 0) => {
+		this.props.dispatch(networktCallStart());
+		fetch("http://localhost:3001/getTweetList?fromId=" + fromId, {
+			headers: new Headers({
+				clientToken: this.props.clientToken,
+				clientSecretToken: this.props.clientSecretToken
+			})
+		})
+			.then(response => {
+				return response.json();
+			})
+			.then(responseJson => {
+				this.props.dispatch(addTweet(responseJson));
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	};
 }
+
+const mapStateToProps = state => ({
+	tweetList: state.tweetList,
+	isLoading: state.isLoading,
+	selectedTweet: state.selectedTweet,
+	isLoggedIn: state.clientToken !== "",
+	clientToken: state.clientToken,
+	clientSecretToken: state.clientSecretToken
+});
+export default connect(mapStateToProps)(TweetListingScreen);

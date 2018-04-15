@@ -36,7 +36,10 @@
     "react": "^16.3.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^3.2.1",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
     "react-twitter-auth": "0.0.11",
     "resolve": "1.6.0",
     "sass-loader": "^7.0.1",
@@ -94,5 +97,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "redux": "^3.7.2"
   }
 }
