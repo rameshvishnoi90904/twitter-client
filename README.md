@@ -1,3 +1,9 @@
+
+## Screenshots
+![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot3.png)
+![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot2.png)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
