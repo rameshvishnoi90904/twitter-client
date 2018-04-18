@@ -1,5 +1,8 @@
 
 ## Screenshots
+![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot4.png)
+![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot5.png)
+![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot6.png)
 ![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot3.png)
 ![ScreenShot](https://raw.github.com/rameshvishnoi90904/twitter-client/master/screenshots/screenshot2.png)
 
